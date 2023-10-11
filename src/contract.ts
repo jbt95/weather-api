@@ -1,5 +1,5 @@
 import { initContract } from '@ts-rest/core';
-import { WeatherSchema } from './schema';
+import { WeatherSchema } from '@/schema';
 import * as z from 'zod';
 
 const c = initContract();

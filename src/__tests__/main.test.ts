@@ -1,8 +1,9 @@
-import { app } from '../src/main';
+import { app } from '@/main';
 import { initClient } from '@ts-rest/core';
-import { contract } from '../src/contract';
-import { mockWeather } from '../src/mock-weather';
-import assert from 'node:assert/strict';
+import { contract } from '@/contract';
+import { mockWeather } from '@/mock-weather';
+import * as assert from 'assert/strict';
+import * as http from 'http';
 
 const port = 3334;
 
@@ -11,9 +12,10 @@ const client = initClient(contract, {
   baseHeaders: {},
 });
 
-const server = app.listen(port);
-
 describe('When the server is running', () => {
+  let server: http.Server;
+
+  before(() => (server = app.listen(port)));
   after(() => server.close());
 
   describe('and a user requests the weather for a city', () => {

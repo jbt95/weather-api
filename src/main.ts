@@ -1,15 +1,15 @@
 import { createExpressEndpoints, initServer } from '@ts-rest/express';
-import express from 'express';
+import * as express from 'express';
 import helmet from 'helmet';
-import cors from 'cors';
-import bodyParser from 'body-parser';
-import { mockWeather } from './mock-weather';
-import { contract } from './contract';
-import morgan from 'morgan';
+import * as cors from 'cors';
+import * as bodyParser from 'body-parser';
+import { mockWeather } from '@/mock-weather';
+import { contract } from '@/contract';
+import * as morgan from 'morgan';
 
 const port = process.env.port || 3333;
 
-export const app = express();
+export const app: express.Express = express();
 
 app.use(cors());
 app.use(helmet());

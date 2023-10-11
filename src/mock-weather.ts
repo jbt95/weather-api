@@ -1,5 +1,5 @@
 import * as z from 'zod';
-import { ForecastSchema, WeatherSchema } from './schema';
+import { ForecastSchema, WeatherSchema } from '@/schema';
 
 type City = string;
 
@@ -27,7 +27,7 @@ const generateMockWeather = (): z.infer<typeof WeatherSchema> => {
   );
 
   return {
-    current: forecast.at(0),
+    current: forecast.at(0)!,
     forecast: forecast.slice(1),
     average: {
       temperature: round(

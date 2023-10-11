@@ -17,5 +17,5 @@ export const ForecastSchema = z.object({
 export const WeatherSchema = z.object({
   current: ForecastSchema,
   forecast: z.array(ForecastSchema),
-  average: ForecastSchema,
+  average: ForecastSchema.omit({ by_hour: true }),
 });
