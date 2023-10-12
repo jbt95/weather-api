@@ -3,11 +3,13 @@ import * as express from 'express';
 import helmet from 'helmet';
 import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
-import { mockWeather } from '@/mock-weather';
-import { contract } from '@/contract';
+import { contract } from '@/app/http/rest/contract';
 import * as morgan from 'morgan';
 import { generateOpenApi } from '@ts-rest/open-api';
 import * as swaggerUi from 'swagger-ui-express';
+import GetWeatherByCityQueryHandler from '@/weather/application/queries/get-weather-by-city';
+import InMemoryRepository from '@/weather/infrastructure/adapters/in-memory-repository.service';
+import NotFoundError from '@/weather/application/queries/not-found.error';
 
 const port = 3333;
 
@@ -21,19 +23,30 @@ app.use(morgan('common'));
 
 const s = initServer();
 
+const getWeatherByCityQueryHandler = new GetWeatherByCityQueryHandler(
+  new InMemoryRepository(),
+);
+
 export const router = s.router(contract, {
   getWeather: async ({ params: { city } }) => {
-    const weather = mockWeather.get(city);
-    if (!weather) {
+    try {
+      const result = await getWeatherByCityQueryHandler.handle({ city });
       return {
-        status: 404,
-        body: { message: `CityNotFound` },
+        status: 200,
+        body: result,
+      };
+    } catch (err) {
+      if (err instanceof NotFoundError) {
+        return {
+          status: 404,
+          body: { message: `CityNotFound` },
+        };
+      }
+      return {
+        status: 500,
+        body: { message: `InternalError` },
       };
     }
-    return {
-      status: 200,
-      body: weather,
-    };
   },
 });
 

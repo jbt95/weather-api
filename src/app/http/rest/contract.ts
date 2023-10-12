@@ -1,5 +1,5 @@
 import { initContract } from '@ts-rest/core';
-import { WeatherSchema } from '@/schema';
+import { WeatherSchema } from '@/app/http/rest/schema';
 import * as z from 'zod';
 
 const c = initContract();
@@ -11,6 +11,9 @@ export const contract = c.router({
     responses: {
       200: WeatherSchema,
       404: z.object({
+        message: z.string(),
+      }),
+      500: z.object({
         message: z.string(),
       }),
     },

@@ -1,9 +1,9 @@
-import { app } from '@/main';
+import { app } from '@/app/http/rest/main';
 import { initClient } from '@ts-rest/core';
-import { contract } from '@/contract';
-import { mockWeather } from '@/mock-weather';
+import { contract } from '@/app/http/rest/contract';
 import * as assert from 'assert/strict';
 import * as http from 'http';
+import InMemoryRepository from '@/weather/infrastructure/adapters/in-memory-repository.service';
 
 const port = 3334;
 
@@ -14,7 +14,7 @@ const client = initClient(contract, {
 
 describe('When the server is running', () => {
   let server: http.Server;
-
+  const repository = new InMemoryRepository();
   before(() => (server = app.listen(port)));
   after(() => server.close());
 
@@ -23,7 +23,7 @@ describe('When the server is running', () => {
       const weather = await client.getWeather({ params: { city: 'madrid' } });
       assert.equal(weather.status, 200);
       assert.ok(weather.body);
-      assert.deepEqual(weather.body, mockWeather.get('madrid'));
+      assert.deepEqual(weather.body, await repository.getByCity('madrid'));
     });
   });
 
