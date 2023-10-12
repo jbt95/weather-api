@@ -27,7 +27,8 @@
     "incremental": true,
     "moduleResolution": "node",
     "allowJs": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": "."
   },
   "include": [
     "./**/*.ts"

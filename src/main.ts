@@ -6,10 +6,12 @@ import * as bodyParser from 'body-parser';
 import { mockWeather } from '@/mock-weather';
 import { contract } from '@/contract';
 import * as morgan from 'morgan';
+import { generateOpenApi } from '@ts-rest/open-api';
+import * as swaggerUi from 'swagger-ui-express';
 
-const port = process.env.port || 3333;
+const port = 3333;
 
-export const app: express.Express = express();
+export const app = express();
 
 app.use(cors());
 app.use(helmet());
@@ -34,6 +36,23 @@ export const router = s.router(contract, {
     };
   },
 });
+
+app.use(
+  '/docs',
+  swaggerUi.serve,
+  swaggerUi.setup(
+    generateOpenApi(
+      contract,
+      {
+        info: {
+          title: 'Weather API',
+          version: '3.0.0',
+        },
+      },
+      { setOperationId: true },
+    ),
+  ),
+);
 
 createExpressEndpoints(contract, router, app);
 
