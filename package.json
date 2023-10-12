@@ -41,6 +41,6 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint . --ext .ts --fix",
     "type:check": "tsc --noEmit",
-    "run:server": "ts-node -r tsconfig-paths/register ./src/main.ts"
+    "dev": "ts-node -r tsconfig-paths/register ./src/main.ts"
   }
 }
