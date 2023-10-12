@@ -11,7 +11,7 @@ import * as swaggerUi from 'swagger-ui-express';
 
 const port = 3333;
 
-export const app = express();
+export const app: express.Express = express();
 
 app.use(cors());
 app.use(helmet());
