@@ -1,6 +1,6 @@
-import {Weather} from "@/weather/domain/entity";
-import NotFoundError from "./not-found.error";
-import WeatherRepository from "@/weather/domain/repository";
+import { Weather } from '@/weather/domain/entity';
+import NotFoundError from './not-found.error';
+import WeatherRepository from '@/weather/domain/repository';
 
 interface Query {
   city: string;

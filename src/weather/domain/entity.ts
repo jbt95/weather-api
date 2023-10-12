@@ -7,11 +7,11 @@ export type Forecast = Readonly<{
     temperature: number;
     humidity: number;
     wind_speed: number;
-  }[]
-}>
+  }[];
+}>;
 
 export type Weather = Readonly<{
   current: Forecast;
   forecast: Forecast[];
-  average: Omit<Forecast, "by_hour">;
-}>
+  average: Omit<Forecast, 'by_hour'>;
+}>;
